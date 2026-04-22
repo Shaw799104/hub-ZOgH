@@ -10,9 +10,8 @@ from torch import nn
 """
 
 # 1. 数据
-def bulid_sample_data():
+def build_sample_data():
   x = np.random.random(5)
-  row_max = np.max(x, axis = -1, keepdims = True)
   y = np.argmax(x)
   return x, y
 
@@ -28,9 +27,9 @@ def build_dataset(total_sample_num):
 class TorchModel(nn.Module):
   def __init__(self, input_size):
     super(TorchModel, self).__init__()
-    self.linear = nn.Linear(inpur_size, input_size)
-    self.loss = nn.CorssEntropyLoss()
-  def forword(self, x, y = None):
+    self.linear = nn.Linear(input_size, input_size)
+    self.loss = nn.CrossEntropyLoss()
+  def forward(self, x, y = None):
     y_pred = self.linear(x)
     if y is not None:
       return self.loss(y_pred, y)
@@ -65,7 +64,7 @@ def train(epoch_num, batch_size, train_sample_num, learning_rate, model):
     for batch_index in range(train_sample_num // batch_size):
       x = train_x[batch_index * batch_size : (batch_index + 1) * batch_size]
       y = train_y[batch_index * batch_size : (batch_index + 1) * batch_size]
-      loss = mmodel(x,y)
+      loss = model(x,y)
       loss.backward()
       optimize.step()
       optimize.zero_grad()
@@ -98,25 +97,10 @@ def predict(model_path, input_vec):
   model.load_state_dict(torch.load(model_path))
   print(model.state_dict())
   model.eval()
-  with torch,no_grad():
+  with torch.no_grad():
     result = model.forward(torch.FloatTensor(input_vec))
   for vec, res in zip(input_vec, result):
     print('输入：%s, 预测最大值位置：%d， 预测概率值%f' % (vec, np.argmax(res), res[np.argmax(res)]))
 
 if __name__ == '__main__':
   main()
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
