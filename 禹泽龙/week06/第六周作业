@@ -26,4 +26,17 @@ LLM SFT Full           （SFT-Full checkpoint invalid）            -          -
   BERT max 相比 zero-shot 提升：+0.2235（66.9%）
   LLM SFT LoRA 相比 zero-shot 提升：+0.2393（71.6%）
 
-结果已保存 → D:\badou_AI\AI\TEST\LLM\text_classification项目\outputs\four_way_comparison.json
+
+
+============================================================
+Few-shot vs Zero-shot 对比结果
+============================================================
+  Zero-shot: 0.3340 (3340/10000)
+  Few-shot (2 shot): 0.3217 (3217/10000)
+  差值: -0.0123 (-3.7%)
+为什么 few-shot 没显著提升？
+模型已经很强：Qwen2-0.5B 在预训练中见过大量中文新闻，类别名本身已经够用
+示例质量有限：随机抽的30条示例可能引入噪声而非知识
+短标题信息少：新闻标题本身很短（10-20字），示例帮助有限
+prompt 变长反而增加解析难度：模型要从 1100 字里忽略无关内容专注分类
+真正有效的 few-shot 需要精心挑选最具代表性的示例，而不是随机抽。
